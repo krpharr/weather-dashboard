@@ -1,0 +1,21 @@
+* {
+    border: blue 1px solid;
+}
+
+.header {
+    height: 68px;
+    width: 100%;
+}
+
+.weather-card-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    padding: 4px;
+    margin: 4px;
+}
+
+.prev-search {
+    height: 64;
+    width: 100%;
+}
