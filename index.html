@@ -20,7 +20,22 @@
 
             <div class="col-sm-3 col-xs-12">
                 <!-- search and past search results column -->
-                <h5>Search Input Placeholder</h5>
+
+                <form>
+                    <div class="form-group">
+                        <label for="input-cityname-ID">City</label>
+                        <input type="text" class="form-control" id="input-cityname-ID" aria-describedby="citynameHelp">
+                        <small id="citynameHelp" class="form-text text-muted">Enter the name of city or county.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-country-ID">Country</label>
+                        <input type="text" class="form-control" id="input-country-ID" aria-describedby="countryHelp">
+                        <small id="countryHelp" class="form-text text-muted">Enter the country of city or county.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+
                 <div class="prev-search">Prev search</div>
                 <div class="prev-search">Prev search</div>
                 <div class="prev-search">Prev search</div>
