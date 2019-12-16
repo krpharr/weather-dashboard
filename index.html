@@ -21,26 +21,69 @@
             <div class="col-sm-3 col-xs-12">
                 <!-- search and past search results column -->
 
-                <form>
-                    <div class="form-group">
-                        <label for="input-cityname-ID">City</label>
-                        <input type="text" class="form-control" id="input-cityname-ID" aria-describedby="citynameHelp">
-                        <small id="citynameHelp" class="form-text text-muted">Enter the name of city or county.</small>
+                <div id="form-container-ID">
+                    <form>
+                        <div class="form-group">
+                            <label for="input-cityname-ID">City</label>
+                            <input type="text" class="form-control" id="input-cityname-ID" aria-describedby="citynameHelp">
+                            <small id="citynameHelp" class="form-text text-muted">Enter the name of city or county.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-country-ID">Country</label>
+                            <input type="text" class="form-control" id="input-country-ID" aria-describedby="countryHelp">
+                            <small id="countryHelp" class="form-text text-muted">Enter the country of city or county.</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+                <div id="previous-search-ID">
+                    <div class="card previous-search">
+                        <div class="card-body">
+                            <h5 class="card-title">City</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Country</h6>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="input-country-ID">Country</label>
-                        <input type="text" class="form-control" id="input-country-ID" aria-describedby="countryHelp">
-                        <small id="countryHelp" class="form-text text-muted">Enter the country of city or county.</small>
+                    <div class="card previous-search">
+                        <div class="card-body">
+                            <h5 class="card-title">City</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Country</h6>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                    <div class="card previous-search">
+                        <div class="card-body">
+                            <h5 class="card-title">City</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Country</h6>
+                        </div>
+                    </div>
+                    <div class="card previous-search">
+                        <div class="card-body">
+                            <h5 class="card-title">City</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Country</h6>
+                        </div>
+                    </div>
+                    <div class="card previous-search">
+                        <div class="card-body">
+                            <h5 class="card-title">City</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Country</h6>
+                        </div>
+                    </div>
+                    <div class="card previous-search">
+                        <div class="card-body">
+                            <h5 class="card-title">City</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Country</h6>
+                        </div>
+                    </div>
+                    <div class="card previous-search">
+                        <div class="card-body">
+                            <h5 class="card-title">City</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Country</h6>
+                        </div>
+                    </div>
+
+                </div>
 
 
-                <div class="prev-search">Prev search</div>
-                <div class="prev-search">Prev search</div>
-                <div class="prev-search">Prev search</div>
-                <div class="prev-search">Prev search</div>
-                <div class="prev-search">Prev search</div>
             </div>
 
             <div class="col-sm-9 col-xs-12">
@@ -49,17 +92,21 @@
                     <!-- city weather info row -->
                     <div class="col-12">
                         <!-- city info column -->
-                        <div class="d-flex">
-                            <div id="city-element-ID d-inline">City</div>
-                            <div id="date-element-ID d-inline">Date</div>
-                            <div id="icon-element-ID d-inline">Icon</div>
+                        <div class="d-flex justify-content-between">
+                            <div id="city-element-ID"></div>
+                            <div id="country-element-ID"></div>
+                            <div id="icon-element-ID"></div>
+                            <div id="date-element-ID">Date</div>
+
                         </div>
 
 
                         <div id="temperature-element-ID">Temp</div>
                         <div id="humidity-element-ID">Humidity</div>
-                        <div id="windspeed-element-ID">Wind speed</div>
+                        <div id="wind-element-ID">Wind speed</div>
                         <div id="uvindex-element-ID">UVIndex</div>
+                        <div id="lon-element-ID" style="display: none;"></div>
+                        <div id="lat-element-ID" style="display: none;"></div>
                     </div>
                 </div>
                 <div class="row d-flex mt-5 mb-5 justify-content-sm-around align-items-sm-center justify-content-xs-between">
@@ -111,10 +158,6 @@
                             <p class="card-text">Humidity</p>
                         </div>
                     </div>
-
-
-
-
                 </div>
             </div>
 
@@ -128,6 +171,9 @@
     <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="assets/js/script.js"></script>
 
 </body>
 
