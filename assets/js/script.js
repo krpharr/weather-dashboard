@@ -32,6 +32,9 @@ function queryOpenWeather(query) {
         x = response.coord.lon;
         y = response.coord.lat;
 
+        var id = response.id;
+        localStorage.setItem("wd-current-city-id", id);
+
     }).then(function(response) {
         var layer = "precipitation_new";
         var z = "3";
@@ -49,6 +52,23 @@ function queryOpenWeather(query) {
             $("#uvindex-element-ID").text("UV Index: " + response.value);
 
         });
+    }).then(function(response) {
+
+        var id = localStorage.getItem("wd-current-city-id");
+
+        queryURL = `http://api.openweathermap.org/data/2.5/forecast?id=${id}&appid=${api_key}`;
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(response) {
+
+            // Create CODE HERE to Log the queryURL
+            console.log("5 day *************");
+            console.log(response);
+
+
+
+        });
     });
 }
 
@@ -63,11 +83,9 @@ $("#submit-search-btn-ID").on("click", function(event) {
 
     country === "" ? queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}` : queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${api_key}`;
 
-    console.log(city);
-    console.log(typeof country);
-    console.log(queryURL);
-
     queryOpenWeather(queryURL);
+
+
 
 
 });
