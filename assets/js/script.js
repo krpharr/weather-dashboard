@@ -1,5 +1,34 @@
 var api_key = "51745af60173eebe983991b32379a839";
 
+
+var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+};
+
+function success(pos) {
+    var crd = pos.coords;
+
+    console.log('Your current position is:');
+    console.log(`Latitude : ${crd.latitude}`);
+    console.log(`Longitude: ${crd.longitude}`);
+    console.log(`More or less ${crd.accuracy} meters.`);
+
+    queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${crd.latitude.toFixed(2)}&lon=${crd.longitude.toFixed(2)}&appid=${api_key}`;
+    console.log(queryURL);
+    console.log(typeof crd.latitude);
+    console.log(typeof crd.longitude);
+    queryOpenWeather(queryURL);
+}
+
+function error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
+navigator.geolocation.getCurrentPosition(success, error, options);
+
+
 function queryOpenWeather(query) {
     $.ajax({
         url: query,
@@ -182,8 +211,5 @@ $("#submit-search-btn-ID").on("click", function(event) {
     country === "" ? queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}` : queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${api_key}`;
 
     queryOpenWeather(queryURL);
-
-
-
 
 });
