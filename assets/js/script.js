@@ -27,7 +27,7 @@ function error(err) {
 }
 
 navigator.geolocation.getCurrentPosition(success, error, options);
-
+updatePastSearchCards();
 
 function queryOpenWeather(query) {
     $.ajax({
@@ -59,6 +59,25 @@ function queryOpenWeather(query) {
 
         var id = response.id;
         localStorage.setItem("wd-current-city-id", id);
+        let lsArray = JSON.parse(localStorage.getItem("wd-past-searches"));
+        let past_search = {
+            id: id,
+            name: response.name,
+            lon: x,
+            lat: y
+        }
+        if (lsArray === null) {
+            lsArray = [];
+        }
+        let getCity = lsArray.filter(ls => {
+            return ls.id === id;
+        });
+        if (getCity.length < 1) {
+            lsArray.push(past_search);
+        }
+        localStorage.setItem("wd-past-searches", JSON.stringify(lsArray));
+
+
 
     }).then(function(response) {
         var layer = "precipitation_new";
@@ -171,19 +190,19 @@ function queryOpenWeather(query) {
             console.log(summaryArray);
             //create and populate 5 day forcast cards
             summaryArray.forEach(s => {
-                let card = $("<div>").addClass("card bg-dark text-white mb-3");
+                let card = $("<div>").addClass("card day-forcast bg-dark text-white mb-3");
                 let img = $("<img>").addClass("card-img").attr("src", "https://via.placeholder.com/160x248");
                 img.attr("alt", "...");
                 let overlay = $("<div>").addClass("card-img-overlay");
                 let title = $("<h5>").addClass("card-title").text(s.date);
                 let high_temp = $("<p>").addClass("card-text d-inline").text(`high: ${Math.round(temperatureConverter(s.high))}º\t`);
                 var url = `http://openweathermap.org/img/wn/${s.high_icon}@2x.png`;
-                var high_icon = $("<img>").addClass("d-inline").attr("src", url);
+                let high_icon = $("<img>").addClass("d-inline").attr("src", url);
                 high_icon.attr("width", "32px");
                 let clouds = $("<p>").addClass("card-text clearfix").text(`clouds: ${s.clouds}%`);
                 let low_temp = $("<p>").addClass("card-text d-inline").text(`low: ${Math.round(temperatureConverter(s.low))}º\t`);
-                var url = `http://openweathermap.org/img/wn/${s.low_icon}@2x.png`;
-                var low_icon = $("<img>").addClass("d-inline").attr("src", url);
+                url = `http://openweathermap.org/img/wn/${s.low_icon}@2x.png`;
+                let low_icon = $("<img>").addClass("d-inline").attr("src", url);
                 low_icon.attr("width", "32px");
                 let humidity = $("<p>").addClass("card-text").text(`humidity: ${s.humidity}%`);
                 let wind = $("<p>").addClass("card-text").attr("style", "font-size: 10px;").text(`wind: ${s.wind[0]}º ${s.wind[1]} knots`);
@@ -195,6 +214,50 @@ function queryOpenWeather(query) {
     });
 }
 
+function updatePastSearchCards() {
+    // get from localStorage
+    lsArray = JSON.parse(localStorage.getItem("wd-past-searches"));
+    if (lsArray === null || lsArray.length < 1) {
+        return;
+    }
+    //empty container 
+    let container = $("#previous-search-ID");
+    container.empty();
+
+
+    //iterate array
+    lsArray.forEach(city => {
+        //ajax request
+        let queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat.toFixed(2)}&lon=${city.lon.toFixed(2)}&appid=${api_key}`;
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(response) {
+            //create card divs
+            console.log("********** updatePastSearchCards ajax response ***********");
+            console.log(response);
+            //set data
+            let city = response;
+            let card = $("<div>").addClass("card previous-search");
+            let cardBody = $("<div>").addClass("card-body");
+            let cardTitle = $("<h5>").addClass("card-title d-inline");
+            let div = $("<div>");
+            let cardIcon = $("<img>").addClass("d-inline");
+            cardIcon.attr("src", `http://openweathermap.org/img/wn/${city.weather[0].icon}@2x.png`);
+            cardIcon.attr("width", "48px");
+            let cardSubtitle = $("<h6>").addClass("card-subtitle mb-2 text-muted");
+            cardTitle.text(city.name);
+            let str = `${Math.round(temperatureConverter(city.main.temp))}º\t${city.weather[0].description}`;
+            cardSubtitle.text(str);
+            div.append(cardTitle, cardIcon);
+            card.append(cardBody, div, cardSubtitle);
+            container.append(card);
+            //append
+        });
+
+    });
+}
 
 function temperatureConverter(valNum) {
     valNum = parseFloat(valNum);

@@ -19,3 +19,11 @@
     height: 64;
     width: 100%;
 }
+
+.previous-search {
+    padding: 16px 8px 8px!important;
+}
+
+.previous-search .card-body {
+    padding: 0!important;
+}
