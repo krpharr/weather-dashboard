@@ -38,6 +38,13 @@
     #col-b {
         order: 1;
     }
+    .day-forcast {
+        width: 90%;
+        height: 220px;
+        overflow: hidden;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 
