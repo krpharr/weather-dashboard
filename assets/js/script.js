@@ -7,6 +7,8 @@ var options = {
     maximumAge: 0
 };
 
+var updatePastSearches = true;
+
 function success(pos) {
     var crd = pos.coords;
 
@@ -27,29 +29,30 @@ function error(err) {
 }
 
 navigator.geolocation.getCurrentPosition(success, error, options);
-updatePastSearchCards();
+// updatePastSearchCards();
 
 function queryOpenWeather(query) {
     $("#forcast-container-ID").empty();
+
 
     $.ajax({
         url: query,
         method: "GET"
     }).then(function(response) {
 
+        $("#city-element-ID, #counrty-element-ID, #icon-element-ID, #description-element-ID, #date-element-ID").empty();
+        $("#lon-element-ID,#lat-element-ID,#wind-element-ID,#humidity-element-ID,#temperature-element-ID").empty();
+        $("#feels-like-element-ID,#temp-min-element-ID,#temp-max-element-ID,#pressure-element-ID,#clouds-element-ID").empty();
 
         console.log(response);
         $("#city-element-ID").text(response.name);
         $("#country-element-ID").text(response.sys.country);
-
         var url = `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`;
         console.log(url);
         var img = $("<img>").attr("src", url);
         $("#icon-element-ID").append(img);
         $("#description-element-ID").text(`${response.weather[0].description}`);
         $("#date-element-ID").text(moment().format("MM/DD/YYYY"));
-        // $("#icon-element-ID").(response.weather[0].icon);
-
         $("#lon-element-ID").text("Longitude: " + response.coord.lon);
         $("#lat-element-ID").text("Latitude: " + response.coord.lat);
         $("#wind-element-ID").text("Wind direction: " + response.wind.deg + " Wind speed: " + response.wind.speed);
@@ -84,7 +87,8 @@ function queryOpenWeather(query) {
             lsArray.push(past_search);
         }
         localStorage.setItem("wd-past-searches", JSON.stringify(lsArray));
-        updatePastSearchCards();
+        updatePastSearches = true;
+        // updatePastSearchCards();
 
 
     }).then(function(response) {
@@ -152,21 +156,21 @@ function queryOpenWeather(query) {
             });
             console.log(forecastByDayArray);
 
-            if (forecastByDayArray.length < 6 && forecastByDayArray[0].length < 1) {
-                let ls = JSON.parse(localStorage.getItem("wd-current-city-forecast"));
-                let f = {
-                    date: moment().format(),
-                    feels_like: ls.main.feels_like,
-                    clouds: ls.clouds.all,
-                    humidity: ls.main.humidity,
-                    temp: ls.main.temp,
-                    desc: ls.weather[0].description,
-                    icon: ls.weather[0].icon,
-                    main: ls.weather[0].main,
-                    wind: [ls.wind.deg, ls.wind.speed]
-                }
-                forecastByDayArray[0].push(f);
+            // if (forecastByDayArray.length < 6 && forecastByDayArray[0].length < 1) {
+            let ls = JSON.parse(localStorage.getItem("wd-current-city-forecast"));
+            let f = {
+                date: moment().format(),
+                feels_like: ls.main.feels_like,
+                clouds: ls.clouds.all,
+                humidity: ls.main.humidity,
+                temp: ls.main.temp,
+                desc: ls.weather[0].description,
+                icon: ls.weather[0].icon,
+                main: ls.weather[0].main,
+                wind: [ls.wind.deg, ls.wind.speed]
             }
+            forecastByDayArray[0].push(f);
+            // }
 
             //create summary for each day
             let summaryArray = [];
@@ -240,6 +244,11 @@ function queryOpenWeather(query) {
 }
 
 async function updatePastSearchCards() {
+    if (updatePastSearches === false) {
+        return;
+    } else {
+        updatePastSearches = false;
+    }
     // get from localStorage
     lsArray = JSON.parse(localStorage.getItem("wd-past-searches"));
     if (lsArray === null || lsArray.length < 1) {
@@ -253,7 +262,8 @@ async function updatePastSearchCards() {
     //iterate array
     lsArray.forEach(city => {
         //ajax request
-        let queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat.toFixed(2)}&lon=${city.lon.toFixed(2)}&appid=${api_key}`;
+        // let queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat.toFixed(2)}&lon=${city.lon.toFixed(2)}&appid=${api_key}`;
+        let queryURL = `https://api.openweathermap.org/data/2.5/weather?id=${city.id}&appid=${api_key}`;
 
         $.ajax({
             url: queryURL,
@@ -263,19 +273,19 @@ async function updatePastSearchCards() {
             console.log("********** updatePastSearchCards ajax response ***********");
             console.log(response);
             //set data
-            let city = response;
+            // let city = response;
             let card = $("<div>").addClass("card previous-search mt-1 mb-1");
-            card.attr("data-id", city.id)
+            card.attr("data-id", response.id)
             let cardBody = $("<div>").addClass("card-body");
             let cardTitle = $("<h5>").addClass("card-title d-inline");
             let div = $("<div>");
             let cardIcon = $("<img>").addClass("d-inline");
-            cardIcon.attr("src", `http://openweathermap.org/img/wn/${city.weather[0].icon}@2x.png`);
+            cardIcon.attr("src", `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`);
             cardIcon.attr("width", "48px");
             // let cardSubtitle = $("<h6>");
             let cardSubtitle = $("<h6>").addClass("card-subtitle mb-2 text-muted");
-            cardTitle.text(city.name);
-            let str = `${Math.round(temperatureConverter(city.main.temp))}º\t${city.weather[0].description}`;
+            cardTitle.text(city.name); //city name from user search 
+            let str = `${Math.round(temperatureConverter(response.main.temp))}º\t${response.weather[0].description}`;
             cardSubtitle.text(str);
             div.append(cardTitle, cardIcon);
             card.append(cardBody, div, cardSubtitle);
@@ -314,6 +324,18 @@ $("#submit-search-btn-ID").on("click", function(event) {
     country === "" ? queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}` : queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${api_key}`;
 
     queryOpenWeather(queryURL);
-
-
+    $("#input-cityname-ID").val("");
+    $("#input-country-ID").val("");
 });
+
+// updates search continer if there is new data
+var updatePastSearchesListener = setInterval(function() {
+    if (updatePastSearches) {
+        updatePastSearchCards();
+    }
+}, 1000);
+
+//update current conditions for past searches
+var updatePastSearchContainer = setInterval(function() {
+    updatePastSearches = true;
+}, 60000 * 5);
