@@ -26,7 +26,7 @@
                 <!-- search and past search results column -->
 
                 <div id="form-container-ID">
-                    <form>
+                    <form id="city-search-form-ID">
                         <div class="form-group">
                             <label for="input-cityname-ID">City</label>
                             <input type="text" class="form-control" id="input-cityname-ID" aria-describedby="citynameHelp">
@@ -90,9 +90,10 @@
 
             </div>
 
-            <div class="col-sm-9 col-xs-12">
+            <div id="city-and-forcast-container-ID" class="col-sm-9 col-xs-12 d-flex">
                 <!-- city and 5-day forecast columns -->
-                <div class="row">
+
+                <div id="city-container-ID" class="row">
                     <!-- city weather info row -->
                     <div class="col-12">
                         <!-- city info column -->
@@ -118,6 +119,9 @@
                         <div id="lat-element-ID" style="display: none;"></div>
                     </div>
                 </div>
+
+
+
                 <div id="forcast-container-ID" class="row d-flex mt-5 mb-5 justify-content-sm-around align-items-sm-center justify-content-xs-between">
                     <!-- 5-day forecast row -->
 
