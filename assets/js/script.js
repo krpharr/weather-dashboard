@@ -30,6 +30,8 @@ navigator.geolocation.getCurrentPosition(success, error, options);
 updatePastSearchCards();
 
 function queryOpenWeather(query) {
+    $("#forcast-container-ID").empty();
+
     $.ajax({
         url: query,
         method: "GET"
@@ -44,21 +46,27 @@ function queryOpenWeather(query) {
         console.log(url);
         var img = $("<img>").attr("src", url);
         $("#icon-element-ID").append(img);
-
+        $("#description-element-ID").text(`${response.weather[0].description}`);
+        $("#date-element-ID").text(moment().format("MM/DD/YYYY"));
         // $("#icon-element-ID").(response.weather[0].icon);
 
         $("#lon-element-ID").text("Longitude: " + response.coord.lon);
         $("#lat-element-ID").text("Latitude: " + response.coord.lat);
         $("#wind-element-ID").text("Wind direction: " + response.wind.deg + " Wind speed: " + response.wind.speed);
         $("#humidity-element-ID").text("Humidity: " + response.main.humidity);
-        $("#temperature-element-ID").text("Temperature: " + Math.round(temperatureConverter(response.main.temp)));
-
+        $("#temperature-element-ID").text(`Temperature: ${Math.round(temperatureConverter(response.main.temp))}º`);
+        $("#feels-like-element-ID").text(`Feels like: ${Math.round(temperatureConverter(response.main.feels_like))}º`);
+        $("#temp-min-element-ID").text(`min temp: ${Math.round(temperatureConverter(response.main.temp_min))}º`);
+        $("#temp-max-element-ID").text(`max temp: ${Math.round(temperatureConverter(response.main.temp_max))}º`);
+        $("#pressure-element-ID").text(`Pressure: ${response.main.pressure}`);
+        $("#clouds-element-ID").text(`Clouds: ${response.clouds.all}%`);
 
         x = response.coord.lon;
         y = response.coord.lat;
 
         var id = response.id;
         localStorage.setItem("wd-current-city-id", id);
+        localStorage.setItem("wd-current-city-forecast", JSON.stringify(response));
         let lsArray = JSON.parse(localStorage.getItem("wd-past-searches"));
         let past_search = {
             id: id,
@@ -76,7 +84,7 @@ function queryOpenWeather(query) {
             lsArray.push(past_search);
         }
         localStorage.setItem("wd-past-searches", JSON.stringify(lsArray));
-
+        updatePastSearchCards();
 
 
     }).then(function(response) {
@@ -143,6 +151,22 @@ function queryOpenWeather(query) {
                 }
             });
             console.log(forecastByDayArray);
+
+            if (forecastByDayArray.length < 6 && forecastByDayArray[0].length < 1) {
+                let ls = JSON.parse(localStorage.getItem("wd-current-city-forecast"));
+                let f = {
+                    date: moment().format(),
+                    feels_like: ls.main.feels_like,
+                    clouds: ls.clouds.all,
+                    humidity: ls.main.humidity,
+                    temp: ls.main.temp,
+                    desc: ls.weather[0].description,
+                    icon: ls.weather[0].icon,
+                    main: ls.weather[0].main,
+                    wind: [ls.wind.deg, ls.wind.speed]
+                }
+                forecastByDayArray[0].push(f);
+            }
 
             //create summary for each day
             let summaryArray = [];
@@ -212,9 +236,10 @@ function queryOpenWeather(query) {
             });
         });
     });
+
 }
 
-function updatePastSearchCards() {
+async function updatePastSearchCards() {
     // get from localStorage
     lsArray = JSON.parse(localStorage.getItem("wd-past-searches"));
     if (lsArray === null || lsArray.length < 1) {
@@ -239,13 +264,15 @@ function updatePastSearchCards() {
             console.log(response);
             //set data
             let city = response;
-            let card = $("<div>").addClass("card previous-search");
+            let card = $("<div>").addClass("card previous-search mt-1 mb-1");
+            card.attr("data-id", city.id)
             let cardBody = $("<div>").addClass("card-body");
             let cardTitle = $("<h5>").addClass("card-title d-inline");
             let div = $("<div>");
             let cardIcon = $("<img>").addClass("d-inline");
             cardIcon.attr("src", `http://openweathermap.org/img/wn/${city.weather[0].icon}@2x.png`);
             cardIcon.attr("width", "48px");
+            // let cardSubtitle = $("<h6>");
             let cardSubtitle = $("<h6>").addClass("card-subtitle mb-2 text-muted");
             cardTitle.text(city.name);
             let str = `${Math.round(temperatureConverter(city.main.temp))}º\t${city.weather[0].description}`;
@@ -254,6 +281,19 @@ function updatePastSearchCards() {
             card.append(cardBody, div, cardSubtitle);
             container.append(card);
             //append
+
+            $(".previous-search").on('click', function(event) {
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                //(... rest of your JS code)
+                console.log(event.target);
+                var ru = $(this).closest('.previous-search');
+                console.log(ru.data());
+                console.log(ru.data().id);
+
+                let query = `http://api.openweathermap.org/data/2.5/weather?id=${ru.data().id}&appid=${api_key}`;
+                queryOpenWeather(query);
+            });
         });
 
     });
@@ -274,5 +314,6 @@ $("#submit-search-btn-ID").on("click", function(event) {
     country === "" ? queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}` : queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${api_key}`;
 
     queryOpenWeather(queryURL);
+
 
 });
