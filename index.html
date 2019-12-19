@@ -8,16 +8,12 @@
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/style.css">
-
-
-
-
     <title>Weather Dashboard</title>
 </head>
 
 <body class="d-flex flex-column h-100">
     <!-- Begin page content -->
-    <div class="header"></div>
+    <!-- <div class="header"></div> -->
     <div class="container mt-3">
 
         <div class="row h-100">
@@ -54,24 +50,43 @@
                     <!-- city weather info row -->
                     <div class="col-12">
                         <!-- city info column -->
-                        <div class="d-flex justify-content-between">
-                            <div id="city-element-ID"></div>
-                            <div id="country-element-ID"></div>
-                            <div id="icon-element-ID"></div>
-                            <div id="description-element-ID"></div>
-                            <div id="date-element-ID">Date</div>
+                        <div class="d-flex justify-content-around">
+                            <div>
+                                <h1 id="city-element-ID"></h1>
+                                <div id="country-element-ID"></div>
+                                <div class="text-center" id="date-element-ID"></div>
+                            </div>
+                            <div class="text-center">
+                                <div id="icon-element-ID"></div>
+                                <div id="description-element-ID"></div>
+                            </div>
+
+                        </div>
+                        <div class="d-flex justify-content-around">
+                            <h2 id="day-element-ID"></h2>
+                        </div>
+
+                        <div class="d-flex justify-content-around">
+                            <h3 id="temperature-element-ID"></h3>
+                            <h3 id="feels-like-element-ID"></h3>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <h4 id="temp-min-element-ID"></h4>
+                            <h4 id="temp-max-element-ID"></h4>
+
                         </div>
 
 
-                        <div id="temperature-element-ID">Temp</div>
-                        <div id="feels-like-element-ID">Feels like</div>
-                        <div id="temp-min-element-ID">min temp</div>
-                        <div id="temp-max-element-ID">max temp</div>
-                        <div id="pressure-element-ID">pressure</div>
-                        <dov id="clouds-element-ID"></dov>
-                        <div id="humidity-element-ID">Humidity</div>
-                        <div id="wind-element-ID">Wind speed</div>
-                        <div id="uvindex-element-ID">UVIndex</div>
+                        <div class="d-flex justify-content-around">
+                            <div id="clouds-element-ID"></div>
+                            <div id="humidity-element-ID"></div>
+                        </div>
+
+                        <div id="wind-element-ID"></div>
+                        <div id="uvindex-element-ID"></div>
+
+                        <div id="pressure-element-ID" style="display: none;">pressure</div>
                         <div id="lon-element-ID" style="display: none;"></div>
                         <div id="lat-element-ID" style="display: none;"></div>
                     </div>

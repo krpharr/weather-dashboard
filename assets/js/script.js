@@ -7,6 +7,10 @@ var options = {
     maximumAge: 0
 };
 
+const fullDaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const abrevDaysOfWeek = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+
+
 var updatePastSearches = true;
 
 function success(pos) {
@@ -52,17 +56,19 @@ function queryOpenWeather(query) {
         var img = $("<img>").attr("src", url);
         $("#icon-element-ID").append(img);
         $("#description-element-ID").text(`${response.weather[0].description}`);
+        $("#day-element-ID").text(fullDaysOfWeek[moment().weekday()]);
         $("#date-element-ID").text(moment().format("MM/DD/YYYY"));
         $("#lon-element-ID").text("Longitude: " + response.coord.lon);
         $("#lat-element-ID").text("Latitude: " + response.coord.lat);
-        $("#wind-element-ID").text("Wind direction: " + response.wind.deg + " Wind speed: " + response.wind.speed);
-        $("#humidity-element-ID").text("Humidity: " + response.main.humidity);
-        $("#temperature-element-ID").text(`Temperature: ${Math.round(temperatureConverter(response.main.temp))}º`);
-        $("#feels-like-element-ID").text(`Feels like: ${Math.round(temperatureConverter(response.main.feels_like))}º`);
-        $("#temp-min-element-ID").text(`min temp: ${Math.round(temperatureConverter(response.main.temp_min))}º`);
-        $("#temp-max-element-ID").text(`max temp: ${Math.round(temperatureConverter(response.main.temp_max))}º`);
-        $("#pressure-element-ID").text(`Pressure: ${response.main.pressure}`);
+        $("#wind-element-ID").text(`Wind: ${response.wind.deg}º / ${response.wind.speed} knots`);
         $("#clouds-element-ID").text(`Clouds: ${response.clouds.all}%`);
+        $("#humidity-element-ID").text(`Humidity: ${response.main.humidity}%`);
+        $("#temperature-element-ID").text(`${Math.round(temperatureConverter(response.main.temp))}ºF`);
+        $("#feels-like-element-ID").text(`feels like: ${Math.round(temperatureConverter(response.main.feels_like))}ºF`);
+        $("#temp-min-element-ID").text(`min/max: ${Math.round(temperatureConverter(response.main.temp_min))}º`);
+        $("#temp-max-element-ID").text(`/${Math.round(temperatureConverter(response.main.temp_max))}ºF`);
+        $("#pressure-element-ID").text(`Pressure: ${response.main.pressure}`);
+
 
         x = response.coord.lon;
         y = response.coord.lat;
@@ -156,21 +162,23 @@ function queryOpenWeather(query) {
             });
             console.log(forecastByDayArray);
 
-            // if (forecastByDayArray.length < 6 && forecastByDayArray[0].length < 1) {
-            let ls = JSON.parse(localStorage.getItem("wd-current-city-forecast"));
-            let f = {
-                date: moment().format(),
-                feels_like: ls.main.feels_like,
-                clouds: ls.clouds.all,
-                humidity: ls.main.humidity,
-                temp: ls.main.temp,
-                desc: ls.weather[0].description,
-                icon: ls.weather[0].icon,
-                main: ls.weather[0].main,
-                wind: [ls.wind.deg, ls.wind.speed]
+            if (forecastByDayArray.length < 6) {
+                let ls = JSON.parse(localStorage.getItem("wd-current-city-forecast"));
+                let f = {
+                    date: moment().format(),
+                    feels_like: ls.main.feels_like,
+                    clouds: ls.clouds.all,
+                    humidity: ls.main.humidity,
+                    temp: ls.main.temp,
+                    desc: ls.weather[0].description,
+                    icon: ls.weather[0].icon,
+                    main: ls.weather[0].main,
+                    wind: [ls.wind.deg, ls.wind.speed]
+                }
+                forecastByDayArray[0].push(f);
+            } else {
+                forecastByDayArray.slice(0, 1);
             }
-            forecastByDayArray[0].push(f);
-            // }
 
             //create summary for each day
             let summaryArray = [];
