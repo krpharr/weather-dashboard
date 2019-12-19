@@ -13,18 +13,46 @@
 
 <body class="d-flex flex-column h-100">
     <!-- Begin page content -->
-    <!-- <div class="header"></div> -->
-    <div class="container mt-3">
+
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#">Weather Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" id="past-searches-menu-ID" href="#previous-search-header-ID">Past Searches <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+                <form class="form-inline text-light mt-2 mt-md-0">
+                    <div class="form-group m-1">
+                        <label for="input-cityname-ID">City</label>
+                        <input type="text" class="form-control ml-1" id="input-cityname-ID">
+                    </div>
+                    <div class="form-group m-1 col-xs-12">
+                        <label for="input-country-ID">Country</label>
+                        <input type="text" class="form-control ml-1" id="input-country-ID" style="width: 68px;" placeholder="ex:US">
+                    </div>
+                    <button type="submit" class="btn btn-primary col-xs-12" id="submit-search-btn-ID">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+
+    <div id="container-ID" class="container">
 
         <div class="row h-100">
 
             <div id="col-a" class="col-sm-3 col-xs-12">
-                <!-- search and past search results column -->
-                <div class="text-white bg-dark text-center mt-3">City Search</div>
+
+                <!-- <div class="text-white bg-dark text-center mt-3">City Search</div>
                 <div class="border p-1 mb-2">
 
                     <div class="mb-3" id="form-container-ID">
-                        <form>
+                        <form class="form-inline mt-2 mt-md-0">
                             <div class="form-group">
                                 <label for="input-cityname-ID">City</label>
                                 <input type="text" class="form-control" id="input-cityname-ID" aria-describedby="citynameHelp">
@@ -38,9 +66,9 @@
                             <button type="submit" class="btn btn-primary" id="submit-search-btn-ID">Search</button>
                         </form>
                     </div>
+                </div> -->
 
-                </div>
-                <div class="text-white bg-dark text-center mt-1 mb-1">Previous Searches</div>
+                <div id="previous-search-header-ID" class="text-white bg-dark text-center mt-1 mb-1">Previous Searches</div>
                 <div id="previous-search-ID">
 
                 </div>

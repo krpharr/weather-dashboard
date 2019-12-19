@@ -2,13 +2,15 @@
     border: blue 1px solid;
 } */
 
-.header {
+
+/* .header {
     height: 68px;
     width: 100%;
-}
+} */
 
 .container {
     min-width: 320px;
+    margin-top: 72px;
 }
 
 .previous-search {
@@ -62,7 +64,11 @@
 
 /* Medium devices (landscape tablets, 768px and up) */
 
-@media only screen and (min-width: 768px) {}
+@media only screen and (min-width: 768px) {
+    #past-searches-menu-ID {
+        display: none;
+    }
+}
 
 
 /* Large devices (laptops/desktops, 992px and up) */
