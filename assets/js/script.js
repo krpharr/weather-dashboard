@@ -48,6 +48,11 @@ function queryOpenWeather(query) {
         $("#lon-element-ID,#lat-element-ID,#wind-element-ID,#humidity-element-ID,#temperature-element-ID").empty();
         $("#feels-like-element-ID,#temp-min-element-ID,#temp-max-element-ID,#pressure-element-ID,#clouds-element-ID").empty();
 
+        //if in mobile scroll to location of current city conditions
+        if ($("#col-a").css("order") === 2) {
+            window.scrollTo(0, 0);
+        }
+
         console.log(response);
         $("#city-element-ID").text(response.name);
         $("#country-element-ID").text(response.sys.country);
@@ -307,7 +312,7 @@ async function updatePastSearchCards() {
             cardIcon.attr("src", `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`);
             cardIcon.attr("width", "48px");
             // let cardSubtitle = $("<h6>");
-            let cardSubtitle = $("<h6>").addClass("card-subtitle mb-2 text-muted");
+            let cardSubtitle = $("<h6>").addClass("card-subtitle mb-2 text-grey");
             cardTitle.text(city.name); //city name from user search 
             let str = `${Math.round(temperatureConverter(response.main.temp))}º\t${response.weather[0].description}`;
             cardSubtitle.text(str);
