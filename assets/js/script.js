@@ -33,7 +33,7 @@ function error(err) {
 }
 
 navigator.geolocation.getCurrentPosition(success, error, options);
-// updatePastSearchCards();
+$("#forecast-header-ID").hide();
 
 function queryOpenWeather(query) {
     $("#forcast-container-ID").empty();
@@ -52,6 +52,7 @@ function queryOpenWeather(query) {
         if ($("#col-a").css("order") === 2) {
             window.scrollTo(0, 0);
         }
+        $("#forecast-header-ID").show();
 
         console.log(response);
         $("#city-element-ID").text(response.name);
