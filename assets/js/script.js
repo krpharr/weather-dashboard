@@ -61,6 +61,10 @@ function queryOpenWeather(query) {
         console.log(url);
         var img = $("<img>").attr("src", url);
         $("#icon-element-ID").append(img);
+        // $("#city-header-ID").attr("background-image", url);
+        $("#city-header-ID").css('background-image', 'url(' + url + ')');
+        // $("#city-header-ID").css("background-position: right top;");
+
         $("#description-element-ID").text(`${response.weather[0].description}`);
         $("#day-element-ID").text(fullDaysOfWeek[moment().weekday()]);
         $("#date-element-ID").text(moment().format("MM/DD/YYYY"));

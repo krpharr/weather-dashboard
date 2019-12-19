@@ -29,6 +29,11 @@
     width: 240px;
 }
 
+#city-header-ID {
+    background-position: right top;
+    background-repeat: no-repeat;
+}
+
 
 /* Extra small devices (phones, 600px and down) */
 
@@ -46,6 +51,10 @@
         margin-left: auto;
         margin-right: auto;
         padding: 8px 16px 16px!important;
+    }
+    #city-header-ID {
+        background-position: right top;
+        background-repeat: no-repeat;
     }
 }
 
@@ -67,6 +76,11 @@
 @media only screen and (min-width: 768px) {
     #past-searches-menu-ID {
         display: none;
+    }
+    #city-header-ID {
+        background-size: 10rem;
+        /* background-position: center top; */
+        background-repeat: no-repeat;
     }
 }
 
