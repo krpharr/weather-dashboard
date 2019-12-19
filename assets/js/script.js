@@ -8,7 +8,7 @@ var options = {
 };
 
 const fullDaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const abrevDaysOfWeek = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+// const abrevDaysOfWeek = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
 
 var updatePastSearches = true;
@@ -226,24 +226,40 @@ function queryOpenWeather(query) {
             console.log(summaryArray);
             //create and populate 5 day forcast cards
             summaryArray.forEach(s => {
-                let card = $("<div>").addClass("card day-forcast bg-dark text-white mb-3");
-                let img = $("<img>").addClass("card-img").attr("src", "https://via.placeholder.com/160x248");
-                img.attr("alt", "...");
-                let overlay = $("<div>").addClass("card-img-overlay");
-                let title = $("<h5>").addClass("card-title").text(s.date);
-                let high_temp = $("<p>").addClass("card-text d-inline").text(`high: ${Math.round(temperatureConverter(s.high))}º\t`);
+                let card = $("<div>").addClass("card day-forcast bg-dark text-light mb-3 p-2");
+                // let img = $("<img>").addClass("card-img").attr("src", "https://via.placeholder.com/160x248");
+                // img.attr("alt", "...");
+                // let overlay = $("<div>").addClass("card-img-overlay");
+
+                let header = $("<div>").addClass("text-center");
+                let title = $("<h3>").addClass("card-title").text(fullDaysOfWeek[moment(s.date).weekday()]);
+                let date = $("<p>").addClass("card-text").text(s.date);
+                header.append(title, date);
+
+                let high = $("<div>").addClass("d-flex justify-content-between align-items-center");
+                let high_temp = $("<p>").addClass("card-text d-inline mr-1").text(`high: ${Math.round(temperatureConverter(s.high))}º\t`);
                 var url = `http://openweathermap.org/img/wn/${s.high_icon}@2x.png`;
-                let high_icon = $("<img>").addClass("d-inline").attr("src", url);
+                let high_icon = $("<img>").addClass("").attr("src", url);
                 high_icon.attr("width", "32px");
-                let clouds = $("<p>").addClass("card-text clearfix").text(`clouds: ${s.clouds}%`);
-                let low_temp = $("<p>").addClass("card-text d-inline").text(`low: ${Math.round(temperatureConverter(s.low))}º\t`);
+                let high_desc = $("<div>").addClass("").text(s.high_desc);
+                high.append(high_temp, $("<div>").addClass("text-center").append(high_icon, high_desc));
+
+                let low = $("<div>").addClass("d-flex justify-content-between align-items-center");
+                let low_temp = $("<p>").addClass("card-text d-inline mr-1").text(`low: ${Math.round(temperatureConverter(s.low))}º\t`);
                 url = `http://openweathermap.org/img/wn/${s.low_icon}@2x.png`;
-                let low_icon = $("<img>").addClass("d-inline").attr("src", url);
+                let low_icon = $("<img>").addClass("").attr("src", url);
                 low_icon.attr("width", "32px");
+                let low_desc = $("<div>").addClass("").text(s.low_desc);
+                low.append(low_temp, $("<div>").addClass("text-center").append(low_icon, low_desc));
+
+                let clouds = $("<p>").addClass("card-text clearfix").text(`clouds: ${s.clouds}%`);
+
                 let humidity = $("<p>").addClass("card-text").text(`humidity: ${s.humidity}%`);
                 let wind = $("<p>").addClass("card-text").attr("style", "font-size: 10px;").text(`wind: ${s.wind[0]}º ${s.wind[1]} knots`);
-                overlay.append(title, high_temp, high_icon, clouds, low_temp, low_icon, humidity, wind)
-                card.append(img, overlay);
+                // overlay.append(title, date, high_temp, high_icon, clouds, low_temp, low_icon, humidity, wind)
+                // card.append(img, overlay);
+
+                card.append(header, high, low, clouds, humidity, wind);
                 $("#forcast-container-ID").append(card);
             });
         });
@@ -282,7 +298,7 @@ async function updatePastSearchCards() {
             console.log(response);
             //set data
             // let city = response;
-            let card = $("<div>").addClass("card previous-search mt-1 mb-1");
+            let card = $("<div>").addClass("card previous-search text-white bg-info mt-1 mb-1");
             card.attr("data-id", response.id)
             let cardBody = $("<div>").addClass("card-body");
             let cardTitle = $("<h5>").addClass("card-title d-inline");

@@ -1,6 +1,6 @@
-* {
+/* * {
     border: blue 1px solid;
-}
+} */
 
 .header {
     height: 68px;
@@ -11,25 +11,20 @@
     min-width: 320px;
 }
 
-.weather-card-placeholder {
-    width: 100px;
-    height: 100px;
-    background-color: blue;
-    padding: 4px;
-    margin: 4px;
-}
-
-.prev-search {
-    height: 64;
-    width: 100%;
-}
-
 .previous-search {
     padding: 16px 8px 8px!important;
 }
 
 .previous-search .card-body {
     padding: 0!important;
+}
+
+.city-title {
+    font-size: 5rem;
+}
+
+.day-forcast {
+    width: 240px;
 }
 
 
@@ -44,10 +39,11 @@
     }
     .day-forcast {
         width: 90%;
-        height: 220px;
+        /* height: 220px; */
         overflow: hidden;
         margin-left: auto;
         margin-right: auto;
+        padding: 8px 16px 16px!important;
     }
 }
 
