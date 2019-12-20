@@ -37,21 +37,22 @@ $("#forecast-header-ID").hide();
 
 function queryOpenWeather(query) {
     $("#forcast-container-ID").empty();
-
+    if ($("#col-a").css("order") === 2) {
+        //location.href = "#col-b";
+        window.scrollTo(0, 80);
+        // document.getElementById("#col-b").scrollIntoView();
+    }
 
     $.ajax({
         url: query,
         method: "GET"
     }).then(function(response) {
 
-        $("#city-element-ID, #counrty-element-ID, #icon-element-ID, #description-element-ID, #date-element-ID").empty();
+        $("#city-element-ID, #lat-long-link-ID, #counrty-element-ID, #icon-element-ID, #description-element-ID, #date-element-ID").empty();
         $("#lon-element-ID,#lat-element-ID,#wind-element-ID,#humidity-element-ID,#temperature-element-ID").empty();
         $("#feels-like-element-ID,#temp-min-element-ID,#temp-max-element-ID,#pressure-element-ID,#clouds-element-ID").empty();
 
-        //if in mobile scroll to location of current city conditions
-        if ($("#col-a").css("order") === 2) {
-            window.scrollTo(0, 0);
-        }
+
         $("#forecast-header-ID").show();
 
         console.log(response);
@@ -64,6 +65,9 @@ function queryOpenWeather(query) {
         // $("#city-header-ID").attr("background-image", url);
         $("#city-header-ID").css('background-image', 'url(' + url + ')');
         // $("#city-header-ID").css("background-position: right top;");
+        let link = `https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=${response.coord.lat}&lon=${response.coord.lon}&zoom=12`
+        let a = $("<a>").attr("href", link).attr("target", "_blank").text(`lat:${response.coord.lat}/lon:${response.coord.lon}`);
+        $("#lat-long-link-ID").append(a);
 
         $("#description-element-ID").text(`${response.weather[0].description}`);
         $("#day-element-ID").text(fullDaysOfWeek[moment().weekday()]);
@@ -97,7 +101,7 @@ function queryOpenWeather(query) {
             lsArray = [];
         }
         let getCity = lsArray.filter(ls => {
-            return ls.id === id;
+            return ls.id === id || ls.name === response.name;
         });
         if (getCity.length < 1) {
             lsArray.push(past_search);
@@ -310,6 +314,7 @@ async function updatePastSearchCards() {
             // let city = response;
             let card = $("<div>").addClass("card previous-search text-white bg-info mt-1 mb-1");
             card.attr("data-id", response.id)
+            card.attr("data-name", city.name)
             let cardBody = $("<div>").addClass("card-body");
             let cardTitle = $("<h5>").addClass("card-title d-inline");
             let div = $("<div>");
@@ -323,8 +328,10 @@ async function updatePastSearchCards() {
             cardSubtitle.text(str);
             div.append(cardTitle, cardIcon);
             card.append(cardBody, div, cardSubtitle);
-            container.append(card);
-            //append
+            let a = $("<a>").attr("href", "#col-b");
+            a.append(card);
+            container.append(a);
+
 
             $(".previous-search").on('click', function(event) {
                 event.stopPropagation();
@@ -334,19 +341,22 @@ async function updatePastSearchCards() {
                 var ru = $(this).closest('.previous-search');
                 console.log(ru.data());
                 console.log(ru.data().id);
+                console.log(ru.data().name);
 
-                let query = `http://api.openweathermap.org/data/2.5/weather?id=${ru.data().id}&appid=${api_key}`;
+                let query = `http://api.openweathermap.org/data/2.5/weather?q=${ru.data().name}&id=${ru.data().id}&appid=${api_key}`;
                 queryOpenWeather(query);
             });
+
         });
 
     });
+
 }
 
 function temperatureConverter(valNum) {
     valNum = parseFloat(valNum);
     return ((valNum - 273.15) * 1.8) + 32;
-}
+};
 
 
 $("#submit-search-btn-ID").on("click", function(event) {
@@ -362,9 +372,12 @@ $("#submit-search-btn-ID").on("click", function(event) {
     $("#input-country-ID").val("");
 });
 
+
+
 // updates search continer if there is new data
 var updatePastSearchesListener = setInterval(function() {
     if (updatePastSearches) {
+
         updatePastSearchCards();
     }
 }, 1000);

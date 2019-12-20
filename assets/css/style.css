@@ -38,6 +38,9 @@
 /* Extra small devices (phones, 600px and down) */
 
 @media only screen and (max-width: 575px) {
+    .container {
+        max-width: 100%;
+    }
     #col-a {
         order: 2;
     }
@@ -55,6 +58,7 @@
     #city-header-ID {
         background-position: right top;
         background-repeat: no-repeat;
+        overflow-x: scroll;
     }
 }
 
