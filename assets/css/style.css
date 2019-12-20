@@ -27,11 +27,15 @@
 
 .day-forcast {
     width: 240px;
+    border-radius: 10px;
 }
 
 #city-header-ID {
     background-position: right top;
     background-repeat: no-repeat;
+    background-color: lightsteelblue;
+    padding: 8px;
+    border-radius: 10px;
 }
 
 
@@ -82,7 +86,7 @@
         display: none;
     }
     #city-header-ID {
-        background-size: 10rem;
+        /* background-size: 10rem; */
         /* background-position: center top; */
         background-repeat: no-repeat;
     }
