@@ -225,7 +225,7 @@ function queryOpenWeather(query) {
 
                 let high = $("<div>").addClass("d-flex justify-content-between align-items-center");
                 let high_temp = $("<p>").addClass("card-text d-inline mr-1").text(`high: ${Math.round(temperatureConverter(s.high))}º\t`);
-                var url = `http://openweathermap.org/img/wn/${s.high_icon}@2x.png`;
+                var url = `https://openweathermap.org/img/wn/${s.high_icon}@2x.png`;
                 let high_icon = $("<img>").addClass("").attr("src", url);
                 high_icon.attr("width", "32px");
                 let high_desc = $("<div>").addClass("").text(s.high_desc);
