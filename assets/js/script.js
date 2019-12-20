@@ -47,7 +47,7 @@ function queryOpenWeather(query) {
         $("#forecast-header-ID").show();
         $("#city-element-ID").text(response.name);
         $("#country-element-ID").text(response.sys.country);
-        var url = `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`;
+        var url = `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`;
         var img = $("<img>").attr("src", url);
         $("#icon-element-ID").append(img);
         $("#city-header-ID").css('background-image', 'url(' + url + ')');
@@ -214,7 +214,7 @@ function queryOpenWeather(query) {
             //create and populate 5 day forcast cards
             summaryArray.forEach(s => {
                 let card = $("<div>").addClass("card day-forcast bg-dark text-light mb-3 p-2");
-                // let img = $("<img>").addClass("card-img").attr("src", "https://via.placeholder.com/160x248");
+                // let img = $("<img>").addClass("card-img").attr("src", "httpss://via.placeholder.com/160x248");
                 // img.attr("alt", "...");
                 // let overlay = $("<div>").addClass("card-img-overlay");
 
@@ -233,7 +233,7 @@ function queryOpenWeather(query) {
 
                 let low = $("<div>").addClass("d-flex justify-content-between align-items-center");
                 let low_temp = $("<p>").addClass("card-text d-inline mr-1").text(`low: ${Math.round(temperatureConverter(s.low))}º\t`);
-                url = `http://openweathermap.org/img/wn/${s.low_icon}@2x.png`;
+                url = `https://openweathermap.org/img/wn/${s.low_icon}@2x.png`;
                 let low_icon = $("<img>").addClass("").attr("src", url);
                 low_icon.attr("width", "32px");
                 let low_desc = $("<div>").addClass("").text(s.low_desc);
@@ -285,7 +285,7 @@ async function updatePastSearchCards() {
             let cardTitle = $("<h5>").addClass("card-title d-inline");
             let div = $("<div>");
             let cardIcon = $("<img>").addClass("d-inline");
-            cardIcon.attr("src", `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`);
+            cardIcon.attr("src", `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`);
             cardIcon.attr("width", "48px");
             let cardSubtitle = $("<h6>").addClass("card-subtitle mb-2 text-grey");
             cardTitle.text(city.name); //city name from user search 
@@ -302,7 +302,7 @@ async function updatePastSearchCards() {
                 event.stopPropagation();
                 event.stopImmediatePropagation();
                 var ru = $(this).closest('.previous-search');
-                let query = `http://api.openweathermap.org/data/2.5/weather?q=${ru.data().name}&id=${ru.data().id}&appid=${api_key}`;
+                let query = `https://api.openweathermap.org/data/2.5/weather?q=${ru.data().name}&id=${ru.data().id}&appid=${api_key}`;
                 queryOpenWeather(query);
             });
 
