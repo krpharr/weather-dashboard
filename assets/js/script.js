@@ -219,7 +219,7 @@ function queryOpenWeather(query) {
                 // let overlay = $("<div>").addClass("card-img-overlay");
 
                 let header = $("<div>").addClass("text-center");
-                let title = $("<h3>").addClass("card-title").text(fullDaysOfWeek[moment(s.date).weekday()]);
+                let title = $("<h4>").addClass("card-title").text(fullDaysOfWeek[moment(s.date).weekday()]);
                 let date = $("<p>").addClass("card-text").text(s.date);
                 header.append(title, date);
 
