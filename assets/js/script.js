@@ -94,7 +94,7 @@ function queryOpenWeather(query) {
     }).then(function(response) {
         var layer = "precipitation_new";
         var z = "3";
-        queryURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${api_key}&lat=${y}&lon=${x}`;
+        queryURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${api_key}&lat=${y}&lon=${x}`;
         $.ajax({
             url: queryURL,
             method: "GET"
@@ -106,7 +106,7 @@ function queryOpenWeather(query) {
 
     }).then(function(response) {
         var id = localStorage.getItem("wd-current-city-id");
-        queryURL = `http://api.openweathermap.org/data/2.5/forecast?id=${id}&appid=${api_key}`;
+        queryURL = `https://api.openweathermap.org/data/2.5/forecast?id=${id}&appid=${api_key}`;
         $.ajax({
             url: queryURL,
             method: "GET"
