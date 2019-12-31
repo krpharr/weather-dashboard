@@ -6,9 +6,9 @@
 
 Allowing app to access your location enables it to search for your current local weather and a five day forecast.  Search for any city in the world to see it's current conditions and forecast. Click on it's longitude and latitude coordinates to open a map of location in another browser. All past searches are saved and displayed showing current conditions updating every five minutes.  Click on a previous search to see its five day forecast!
 
-![weather-dashboard](assets/images/IMG_3840.PNG)
+![five day forecast](assets/images/IMG_3840.PNG)
 
-![weather-dashboard](assets/images/IMG_3841.PNG)
+![previous searches](assets/images/IMG_3841.PNG)
 
 ## Credits
 

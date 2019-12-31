@@ -100,7 +100,7 @@ function queryOpenWeather(query) {
             method: "GET"
         }).then(function(response) {
             // Create CODE HERE to Log the queryURL
-            console.log(response);
+            // console.log(response);
             $("#uvindex-element-ID").text("UV Index: " + response.value);
         });
 
@@ -111,8 +111,8 @@ function queryOpenWeather(query) {
             url: queryURL,
             method: "GET"
         }).then(function(response) {
-            console.log("5 day *************");
-            console.log(response);
+            // console.log("5 day *************");
+            // console.log(response);
             // console.log(response.list);
             //create forecast object and array to store response
             forecastArray = [];
